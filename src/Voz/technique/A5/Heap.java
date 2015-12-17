@@ -1,7 +1,7 @@
 package Voz.technique.A5;
 import java.util.*;
 
-public class Heap<T extends Comparable<T>> implements PriQueueInterface<T>
+public class Heap<T extends Comparable<T> & Comparator<T>> implements PriQueueInterface<T>
 {
   private ArrayList<T> elements;  // priority queue elements
   private int lastIndex;          // index of last element in priority queue
@@ -33,7 +33,7 @@ public class Heap<T extends Comparable<T>> implements PriQueueInterface<T>
     int hole = lastIndex;
     while ((hole > 0)    // hole is not root and element > hole's parent
            &&                                               
-      (element.compareTo(elements.get((hole - 1) / 2)) > 0)) 
+      (element.compare(element, elements.get((hole - 1) / 2)) > 0)) 
       {
       // move hole's parent down and then move hole up
       elements.set(hole,elements.get((hole - 1) / 2)); 
@@ -69,7 +69,7 @@ public class Heap<T extends Comparable<T>> implements PriQueueInterface<T>
     else
     if (left == lastIndex)
       // hole has left child only
-      if (element.compareTo(elements.get(left)) < 0)             
+      if (element.compare(element, elements.get(left)) < 0)             
         // element < left child
         return left;
       else
@@ -77,9 +77,9 @@ public class Heap<T extends Comparable<T>> implements PriQueueInterface<T>
         return hole;
     else
     // hole has two children 
-    if (elements.get(left).compareTo(elements.get(right)) < 0)
+    if (element.compare(elements.get(left), elements.get(right)) < 0)
       // left child < right child
-      if (elements.get(right).compareTo(element) <= 0)
+      if (element.compare(elements.get(right), element) <= 0)
         // right child <= element
         return hole;
       else
@@ -87,7 +87,7 @@ public class Heap<T extends Comparable<T>> implements PriQueueInterface<T>
         return right;
     else
     // left child >= right child
-    if (elements.get(left).compareTo(element) <= 0)
+    if (element.compare(elements.get(left), element) <= 0)
       // left child <= element
       return hole;
     else
